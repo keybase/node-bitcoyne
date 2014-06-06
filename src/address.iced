@@ -5,7 +5,7 @@ kbpgp = require 'kbpgp'
 {bufeq_secure} = require('pgp-utils').util
 
 exports.check = check = (s, opts = {}) ->
-  versions = opts.versions or [0,3]
+  versions = opts.versions or [0,5]
   buf = base58.decode s
   v = buf.readUInt8 0
   if not (v in versions) then new Error "Bad version found: #{v}"
