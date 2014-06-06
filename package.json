@@ -1,0 +1,36 @@
+{
+  "name": "bitcoyne",
+  "description": "Keybase Bitcoin Library (2nd Edition)",
+  "keywords": [
+    "crypto",
+    "pgp",
+    "keybase"
+  ],
+  "author": "Maxwell Krohn",
+  "version": "0.0.1",
+  "licenses": [
+    {
+      "type": "BSD-3-Clause",
+      "url": ""
+    }
+  ],
+  "main": "./lib/main.js",
+  "directories": {
+    "lib": "lib/"
+  },
+  "homepage": "http://github.com/keybase/node-bitcoyne",
+  "bugs": "https://github.com/keybase/node-bitcoyne/issues",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/keybase/node-bitcoyne.git"
+  },
+  "dependencies": {
+    "iced-error": "~0.0.8",
+    "iced-runtime": "0.0.1"
+  },
+  "devDependencies": {
+    "iced-test": ">=0.0.7",
+    "iced-coffee-script": "~1.7.1-c",
+    "colors": "~0.6.2"
+  }
+}
