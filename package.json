@@ -26,11 +26,13 @@
   },
   "dependencies": {
     "iced-error": "~0.0.8",
-    "iced-runtime": "0.0.1"
+    "iced-runtime": "0.0.1",
+    "kbpgp": "^0.1.21"
   },
   "devDependencies": {
     "iced-test": ">=0.0.7",
     "iced-coffee-script": "~1.7.1-c",
-    "colors": "~0.6.2"
+    "colors": "~0.6.2",
+    "minimist": "^0.1.0"
   }
 }
