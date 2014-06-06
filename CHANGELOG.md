@@ -1,3 +1,3 @@
-## 0.0.1
+## 0.0.1 (2014-06-06)
 
-  - Inaugural changelog
+  - Inaugural checkin
