@@ -5,9 +5,20 @@ kbpgp = require 'kbpgp'
 
 #======================================================================
 
+decode = (s) ->
+  try
+    buf = base58.decode s
+    return [ null, buf]
+  catch err
+    return [err, null]
+
+#==============================
+    
+
 exports.check = check = (s, opts = {}) ->
   versions = opts.versions or [0,5]
-  buf = base58.decode s
+  [err,buf] = decode s
+  return [err,null] if err?
   v = buf.readUInt8 0
   err = if not (v in versions) then new Error "Bad version found: #{v}"
   else
