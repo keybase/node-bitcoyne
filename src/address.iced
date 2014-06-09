@@ -17,7 +17,8 @@ exports.check = check = (s, opts = {}) ->
     if not bufeq_secure checksum1, checksum2
       new Error "Checksum mismatch"
     else null
-  return [err, v]
+  ret = if err? then null else { version : v, pkhash : pkhash[1...] }
+  return [err, ret]
 
 #======================================================================
 
