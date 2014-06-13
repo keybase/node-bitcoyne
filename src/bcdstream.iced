@@ -1,5 +1,5 @@
 
-bignum = require 'bignum'
+{nbv} = require 'bn'
 
 
 ##====================================================================
@@ -14,8 +14,9 @@ exports.Stream = class Stream
   constructor : (b) ->
     @_b = b
     @_c = 0
-    @_int64_lim = bignum(2).pow(61)
-    @_uint64_lim = @_int64_lim.mul(2)
+    @_int64_lim = nbv(2).pow(nbv(61))
+    @_uint64_lim = @_int64_lim.mul(nbv(2))
+    @_js_float_max = @nbv(1).shiftLeft(54)
 
   read_byte : ->
     b = @_b[@_c]
@@ -42,17 +43,27 @@ exports.Stream = class Stream
     return ret
   read_int64: -> 
     b = @read_uint64()
-    b = @_uint64_lim.sub b if b.ge @_int64_lim
+    b = @_uint64_lim.sub(b) if b.ge(@_int64_lim)
     return b
   read_uint64 : -> 
-    b = bignum.fromBuffer @_b[@_c...(@_c+8)], { endian : 'small', size : 8 }
+    b0 = @read_uint32()
+    b1 = @read_uint32()
+    # Little-endian representation
+    b = nbv(b0).add(nbv(b1).shiftLeft(32))
     @_c += 8
     return b
+
+  read_uint64_number : () ->
+    b = @read_uint64()
+    if b.ge(@_js_float_max)
+      throw new Error "#{b.toString()} > #{@_js_float_max.toString()} and can't be read as a native number"
+    b.intValue()
+
   read_compact_size : ->
     switch (b = @read_byte())
       when 253 then @read_uint16()
       when 254 then @read_uint32()
-      when 255 then @read_uint64()
+      when 255 then @read_uint64_number()
       else b
 
   read_bytes : (n) ->

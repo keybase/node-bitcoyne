@@ -10,8 +10,10 @@ lib/%.js: src/%.iced
 	$(ICED) -I browserify -c -o `dirname $@` $<
 
 $(BUILD_STAMP): \
-        lib/address.js \
-	lib/main.js
+    lib/address.js \
+    lib/constants.js \
+	lib/main.js \
+	lib/rational.js 
 	date > $@
 
 build: $(BUILD_STAMP) 

@@ -1,11 +1,19 @@
 
-BigNum = require 'bignum'
-{constants} = require '../constants'
+{nbi,nbv,BigInteger} = require 'bn'
+{constants} = require './constants'
+
+##=====================================================
+
+nbs = (s) -> nbi().fromString(s,10)
+
+##=====================================================
+
+js_lim = nbv(1).shiftLeft(constants.log_2_js_float64_ilim)
 
 ##=====================================================
 
 exports.gcd = gcd = (a,b) ->
-  until b.eq 0
+  until b.equals BigInteger.ZERO 
     t = b
     b = a.mod t
     a = t
@@ -32,15 +40,25 @@ log_base_10 = (imul) ->
 
 exports.Rational = class Rational
 
-  constructor : (@n = BigNum(0), @d = BigNum(1), rdc = true) ->
+  constructor : (@n = nbv(0), @d = nbv(1), rdc = true) ->
     @reduce() if rdc
 
   #----------------
 
   toString : () -> "#{@n.toString()}/#{@d.toString()}"
   inspect : () -> "<Rational #{@n.toString()}/#{@d.toString()} ~#{@estimate()}>"
-  estimate : () -> (@n.toNumber()/@d.toNumber())
   abs : () -> new Rational(@n.abs(), @d.abs())
+
+  #----------------
+
+  estimate : () -> 
+    bl = Math.max @n.bitLength(), @d.bitLength()
+    [n,d] = if (shift = bl - constants.log_2_js_float64_ilim) > 0
+      [@n.shiftRight(shift), @d.shiftRight(shift)]
+    else [@n,@d]
+    [n,d] = [n.toString(),d.toString()]
+    if d is 0 then "\u221e"
+    else n/d
 
   #----------------
 
@@ -50,17 +68,17 @@ exports.Rational = class Rational
 
   reduce : () ->
     sig = 1
-    if @n.lt 0
+    if @n.compareTo(BigInteger.ZERO) < 0
       sig *= -1 
       @n = @n.abs()
-    if @d.lt 0
-      @sig *= -1
+    if @d.compareTo(BigInteger.ZERO) < 0
+      sig *= -1
       @d = @d.abs()
     g = gcd @n, @d
-    if g > 1
-      @n = @n.div g
-      @d = @d.div g
-    @n = @n.mul sig
+    if g > BigInteger.ONE
+      @n = @n.divide g
+      @d = @d.divide g
+    @n = @n.multiply nbv sig
     @
 
   #----------------
@@ -68,15 +86,13 @@ exports.Rational = class Rational
   cmp : (a) ->
     l = @n.mul(a.d)
     r = @d.mul(a.n)
-    if      l.eq r then 0
-    else if l.lt r then -1
-    else                1
+    l.compareTo(r)
 
   #----------------
 
   add : (a) ->
-    n = @d.mul(a.n).add(@n.mul(a.d))
-    d = @d.mul(a.d)
+    n = @d.multiply(a.n).add(@n.multiply(a.d))
+    d = @d.multiply(a.d)
     new Rational(n,d)
 
   #----------------
@@ -84,7 +100,7 @@ exports.Rational = class Rational
   mul : (a) -> new Rational(@n.mul(a.n), @d.mul(a.d))
   div : (a) -> new Rational(@n.mul(a.d), @d.mul(a.n))
   imul : (a) -> new Rational(@n.mul(BigNum(a)), @d)
-  idiv : (a) -> new Rational(@n, @d.mul(BigNum(a)))
+  idiv : (a) -> new Rational(@n, @d.multiply(nbv(a)))
 
   #----------------
 
@@ -96,10 +112,10 @@ exports.Rational = class Rational
   #----------------
 
   scale_to_int : (imul = constants.scale) ->
-    @mul(new Rational(BigNum(imul))).truncated_bignum().toNumber()
+    @mul(new Rational(nbv(imul))).truncated_bignum().intVal()
 
   scale_to_string : (imul = constants.scale) ->
-    @mul(new Rational(BigNum(imul))).truncated_bignum().tostring()
+    @mul(new Rational(nbv(imul))).truncated_bignum().toString()
 
   #----------------
 
@@ -122,14 +138,14 @@ exports.Rational = class Rational
 
   #----------------
 
-  is_zero : () -> @n.eq BigNum(0)
+  is_zero : () -> @n.equals BigInteger.ZERO
   is_positive : () -> @gt new Rational()
 
   #----------------
 
-  @from_int : (i) -> new Rational(BigNum(i))
-  @from_db : (i) -> new Rational(BigNum(i), BigNum(constants.scale))
-  @from_bitcoin_tx : (i) -> new Rational(BigNum(i), BigNum(constants.scale))
+  @from_int : (i) -> new Rational(nbv(i))
+  @from_db : (i) -> new Rational(nbs(i), nbv(constants.scale))
+  @from_bitcoin_tx : (i) -> new Rational(nbs(i), nbv(constants.scale))
   truncated_bignum : () -> @n.div @d
 
   #----------------
@@ -141,7 +157,7 @@ exports.Rational = class Rational
       n *= 10
       d *= 10
       lim--
-    new Rational(BigNum(n), BigNum(d))
+    new Rational(nbv(n), nbv(d))
 
   #----------------
 
@@ -160,11 +176,10 @@ exports.Rational = class Rational
     else if not is_int parts[0] then null
     else Rational.from_int parts[0]
 
-
     dpart = if not ipart? then null
     else if parts.length is 1 then new Rational()
     else if not is_int parts[1] then null
-    else new Rational(BigNum(parts[1]),BigNum(10).pow(parts[1].length))
+    else new Rational(nbs(parts[1]),nbv(10).pow(parts[1].length))
 
     if not dpart? or not ipart? then null
     else 
