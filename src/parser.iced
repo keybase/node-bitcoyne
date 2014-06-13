@@ -2,7 +2,7 @@
 bcdstream = require './bcdstream'
 {opcodes} = require './opcodes'
 {Rational} = require './rational'
-{constants} = require '../constants'
+{constants} = require './constants'
 {match_script} = require './oputil'
 {hash160_to_bc_address,pubkey_to_bc_address} = require './pubkey'
 
@@ -180,10 +180,10 @@ exports.ScriptParser = class ScriptParser
     n_bytes = null
     script = null
     if opcode is opcodes.OP_PUSHDATA4
-      n_bytes = @_buffer.readUint32LE @_i
+      n_bytes = @_buffer.readUInt32LE @_i
       @_i += 4
     else if opcode is opcodes.OP_PUSHDATA2
-      n_bytes = @_buffer.readUint16LE @_i
+      n_bytes = @_buffer.readUInt16LE @_i
       @_i += 2
     else if opcode is opcodes.OP_PUSHDATA1
       n_bytes = @_buffer[@_i]

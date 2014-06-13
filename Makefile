@@ -11,8 +11,14 @@ lib/%.js: src/%.iced
 
 $(BUILD_STAMP): \
     lib/address.js \
+    lib/bcdstream.js \
     lib/constants.js \
+    lib/crypto.js \
 	lib/main.js \
+    lib/opcodes.js \
+    lib/oputil.js \
+    lib/parser.js \
+    lib/pubkey.js \
 	lib/rational.js 
 	date > $@
 

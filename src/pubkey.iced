@@ -1,7 +1,6 @@
 {createHash} = require 'crypto'
 {hash160} = require './crypto'
-b58 = require './base58'
-log = require '../log'
+{base58} = require 'kbpgp'
 
 #-----------------------------------------
 
@@ -15,8 +14,7 @@ exports.hash160_to_bc_address = hash160_to_bc_address = (h160, version = 0 ) ->
     raw = (createHash 'sha256').update(h).digest()
     h = new Buffer raw, 'binary'
   addr = Buffer.concat [ vh160, h[0...4] ]
-  x = b58.encode addr
-  #log.debug "hash160(#{h160.inspect()}) -> #{x}"
+  x = base58.encode addr
   return x
 
 #-----------------------------------------

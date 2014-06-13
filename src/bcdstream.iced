@@ -14,9 +14,9 @@ exports.Stream = class Stream
   constructor : (b) ->
     @_b = b
     @_c = 0
-    @_int64_lim = nbv(2).pow(nbv(61))
-    @_uint64_lim = @_int64_lim.mul(nbv(2))
-    @_js_float_max = @nbv(1).shiftLeft(54)
+    @_int64_lim = nbv(1).shiftLeft(61)
+    @_uint64_lim = @_int64_lim.shiftLeft(1)
+    @_js_float_max = nbv(1).shiftLeft(54)
 
   read_byte : ->
     b = @_b[@_c]
@@ -43,14 +43,13 @@ exports.Stream = class Stream
     return ret
   read_int64: -> 
     b = @read_uint64()
-    b = @_uint64_lim.sub(b) if b.ge(@_int64_lim)
+    b = @_uint64_lim.sub(b) if b.compareTo(@_int64_lim) > 0
     return b
   read_uint64 : -> 
     b0 = @read_uint32()
     b1 = @read_uint32()
     # Little-endian representation
     b = nbv(b0).add(nbv(b1).shiftLeft(32))
-    @_c += 8
     return b
 
   read_uint64_number : () ->
