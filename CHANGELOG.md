@@ -1,6 +1,6 @@
 ## 0.0.4 (2014-06-20)
 
-  - Don't depend on a specific release of bitcoyne, do whatever you'd like
+  - Don't depend on a specific release of iced-runtime
 
 ## 0.0.3 (2014-06-09)
 
