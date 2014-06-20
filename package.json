@@ -27,7 +27,7 @@
   "dependencies": {
     "bn": ">=0.0.5",
     "iced-error": "~0.0.8",
-    "iced-runtime": "0.0.1",
+    "iced-runtime": ">=0.0.1",
     "kbpgp": "^0.1.21",
     "pgp-utils": "0.0.22"
   },

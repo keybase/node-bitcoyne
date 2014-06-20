@@ -14,7 +14,6 @@ decode = (s) ->
 
 #==============================
     
-
 exports.check = check = (s, opts = {}) ->
   versions = opts.versions or [0,5]
   [err,buf] = decode s
