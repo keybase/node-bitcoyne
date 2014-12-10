@@ -1,16 +1,16 @@
 ##### Signed by https://keybase.io/max
 ```
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG/MacGPG2 v2.0.22 (Darwin)
+Version: GnuPG/MacGPG2 v2
 Comment: GPGTools - https://gpgtools.org
 
-iQEcBAABCgAGBQJTpIfoAAoJEJgKPw0B/gTfJ7MIAJWPFMXNYhPkMuq+j73x6YMk
-umxU0E9zL0kJYLO02+BBA4xQ2un6CCkS5gsEKEzFYD+zb1qqmuCuGOPfUQn2eDlf
-JXbtR69GM9TjM/W592Wn/Y74KliXieDw3/Si9NZN+c+mXLfyNOv6r3MNWuPcxdVu
-6lDkvd6pYHufr1kOypTpSAEjtk4StYYcrX3HdXom348HIfLLuJ0c8vfMBdnajMO1
-FRWJ7cAXxTIZS3qnGJVKppVKyPtrc7+CLINl4rT1Zi7HcyVC6AThHkKAPndBeftv
-is55zwSnFFxpMjL7kO+aMn5I0uonn39VWFzPRhEyRxW2GUpZCyJD5JeV629Fbmg=
-=Z6ck
+iQEcBAABCgAGBQJUiJBQAAoJEJgKPw0B/gTfaB0H+wYQbjEu+ihifxHRpyTv8hEg
+8VgMZifJ95gmDrBCyZxsDgrmKgzFn6hVf1NBDId8EuKUl0RxHv6217DYXdltFAiN
+Ch4v059RkJQ3msBtvC/K4ZKSOCmNMdHPsOEUqEJxltJQ/kqgbWTnXGAOs+Bh9cWC
+93vzc5A1Uh2yOWyRDrYWQdMD+oEsB+m3FQw96qo3qhV4+ZgtjsICd5tI6/2Q25VJ
+zzYXWxQYwuaUt1ifMrn20irJrVbEhIOA/55XtFR9Uxy6NHgpaJ7mgdbCYobpRp0x
+qxxI+z1v4sHQFAtjuZR5bp1rRQ5Yj7lzZj1naoLM3qMyD/dmNpKVTDwYlzS/bjU=
+=hIUL
 -----END PGP SIGNATURE-----
 
 ```
@@ -32,7 +32,7 @@ size  exec  file                        contents
               lib/                                                                                      
 1343            address.js              6eac2c746ef1eed9933ff4f1f24a070fb837f68af5bca75b3600483923e33649
 113             main.js                 a5324b09b89f993deefae933e8352c8750732ea1c68d9959cce7d58ddb1999a6
-836           package.json              a1b5481dbfa4bcc911885167557fd9979225b3ed4c6036acf7d57b9b42daaa50
+831           package.json              4a45c6e35b4f90bf9af5bfb3fedeb862d4a3fa8779d5c482096bcb033ef8c881
               src/                                                                                      
 913             address.iced            ad19ee95d74a058d3746315a8c9814303ec7546e35b382e861dfd9dba927d70a
 38              main.iced               795b67a4f1763d0ce0c878132d71f3bb7516a369d8f3c4b0dc1750dc18914765
