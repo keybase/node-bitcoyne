@@ -25,10 +25,10 @@
     "url": "git://github.com/keybase/node-bitcoyne.git"
   },
   "dependencies": {
-    "iced-error": "~0.0.8",
-    "iced-runtime": ">=0.0.1",
-    "kbpgp": "^0.1.21",
-    "pgp-utils": ">=0.0.22"
+    "iced-error": "0.0.9",
+    "iced-runtime": "^1.0.2",
+    "kbpgp": "^2.0.0",
+    "pgp-utils": "0.0.27"
   },
   "devDependencies": {
     "iced-test": ">=0.0.7",
