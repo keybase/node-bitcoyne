@@ -38,3 +38,23 @@ exports.good_alt_coin_1 = (T,cb) ->
   T.no_error err
   T.equal ret.version, 48, "version was right"
   cb()
+
+exports.check_btc_or_zcash = (T,cb) ->
+  tests = [
+    [ "zcCk6rKzynC4tT1Rmg325A5Xw81Ck3S6nD6mtPWCXaMtyFczkyU4kYjEhrcz2QKfF5T2siWGyJNxWo43XWT3qk5YpPhFGj2", true , "zcash.z" ]
+    [ "zcCk6rKzynC4tT1Rmg325A5Xw81Ck3S6nD6mtPWCXaMtyFczkyU4kYjEhrcz2QKfF5T2siWGyJNxWo43XWT3qk5YpPhFGj2x", false ]
+    [ "zcCk6rKzynC4tT1Rmg325A5Xw81Ck3S6nD6mtPWCXaMtyFczkyU4kYjEhrcz2QKfF5T2siWGyJNxWo43XWT3qk5YpPhFGj3", false ]
+    [ "t1c3Ebc6FBbWuirNrjJ6HbS4KHLb6Dbh5xL", true, "zcash.t" ]
+    [ "t1c3Ebc6FBbWuirNrjJ6HbS4KHLb6Dbh5xLx", false ]
+    [ "t1c3Ebc6FBbWuirNrjJ6HbS4KHLb6Dbh5xx", false ]
+    [ "3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy", true, "bitcoin" ]
+    [ "3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLyx", false ]
+    [ "3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLx",  false ]
+  ]
+  for [a, ok, which], i in tests
+    [err, ret] = address.check_btc_or_zcash a
+    T.equal ok, (not err?), "got right success/failure"
+    unless err?
+      T.equal which, ret.type, "right type"
+      console.log ret
+  cb()
