@@ -1,3 +1,7 @@
+## 1.0.3
+
+ - depedency upgrades
+
 ## 1.0.2
 
   - Add zcash support
