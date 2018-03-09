@@ -25,6 +25,7 @@
     "url": "git://github.com/keybase/node-bitcoyne.git"
   },
   "dependencies": {
+    "base32.js": "^0.1.0",
     "iced-error": "^0.0.9",
     "iced-runtime": "^1.0.2",
     "kbpgp": "^2.0.0",
@@ -34,6 +35,7 @@
     "colors": "~0.6.2",
     "iced-coffee-script": "^108.0.11",
     "iced-test": ">=0.0.7",
-    "minimist": "^0.1.0"
+    "minimist": "^0.1.0",
+    "stellar-base": "^0.7.7"
   }
 }

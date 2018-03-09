@@ -10,11 +10,12 @@ lib/%.js: src/%.iced
 	$(ICED) -I browserify -c -o `dirname $@` $<
 
 $(BUILD_STAMP): \
-        lib/address.js \
-	lib/main.js
+    lib/address.js \
+	lib/main.js \
+	lib/stellar.js
 	date > $@
 
-build: $(BUILD_STAMP) 
+build: $(BUILD_STAMP)
 
 clean:
 	rm -rf lib/* $(BUILD_STAMP) $(TEST_STAMP)
