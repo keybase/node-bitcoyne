@@ -1,3 +1,7 @@
+## 1.0.4
+
+ - support for stellar
+
 ## 1.0.3
 
  - depedency upgrades
