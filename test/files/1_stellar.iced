@@ -33,7 +33,7 @@ test_public_1 = (T,cb) ->
   T.assert bufeq_secure(b2, pub)
   T.assert StrKey.isValidEd25519PublicKey(s1), "valid key"
   s2 = StrKey.encodeEd25519PublicKey(pub)
-  T.equal s1, s2, "same encoding from our library or theirs"
+  T.equal s1, s2, "same encoding from our library and theirs"
   b3 = stellar.public_key.decode s2
   T.assert bufeq_secure(b3, pub), "our decoder works too"
   T.assert stellar.public_key.is_valid(s2), "our is_valid works"
