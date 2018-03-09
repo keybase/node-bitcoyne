@@ -63,7 +63,7 @@ decode_check = (typ, s) ->
   data
 
 is_valid = (typ, s) ->
-  return false unless s?.lenght is 56
+  return false unless s?.length is 56
   try
     decoded = decode_check(typ, s)
     return decoded.length is 32

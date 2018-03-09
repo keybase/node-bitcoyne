@@ -36,6 +36,7 @@ test_public_1 = (T,cb) ->
   T.equal s1, s2, "same encoding from our library or theirs"
   b3 = stellar.public_key.decode s2
   T.assert bufeq_secure(b3, pub), "our decoder works too"
+  T.assert stellar.public_key.is_valid(s2), "our is_valid works"
   cb null
 
 assert_fail = (T, msg, fn) ->
