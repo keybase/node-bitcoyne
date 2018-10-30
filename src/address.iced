@@ -2,6 +2,7 @@ kbpgp = require 'kbpgp'
 {SHA256} = kbpgp.hash
 {base58} = kbpgp
 {bufeq_secure} = require('pgp-utils').util
+bech32 = require 'bech32'
 
 #======================================================================
 
@@ -61,9 +62,26 @@ exports.check_with_prefixes = check_with_prefixes = (s, prefixes) ->
 
 #======================================================================
 
+exports.check_zcash_sapling = check_zcash_sapling = (s) ->
+  return [null,null] unless s[0...3] is "zs1"
+  err = ret = null
+  try
+    decoded = bech32.decode s
+    if decoded.prefix isnt "zs"
+      err = new Error "bad prefix: #{decoded.prefix}"
+    else
+      ret = { family : "zcash", type : "zcash.s", prefix : (new Buffer "zs", "utf8") }
+  catch e
+    err = e
+  [err, ret]
+
+#======================================================================
+
 # check that the given addresss is either a bitcoin or a Zcash address,
 # and return a description of which subtype.
 exports.check_btc_or_zcash = (s) ->
+  [err,ret] = check_zcash_sapling s
+  return [err,ret] if err? or ret?
   types =   {
     "00"   : { family : "bitcoin", type : "bitcoin" } # BTC normal
     "05"   : { family : "bitcoin", type : "bitcoin" } # multisig
