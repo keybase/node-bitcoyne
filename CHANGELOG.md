@@ -1,3 +1,7 @@
+## 1.0.5
+
+ - support for zcash sapling
+
 ## 1.0.4
 
  - support for stellar
