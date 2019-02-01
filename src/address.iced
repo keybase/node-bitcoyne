@@ -70,7 +70,7 @@ exports.check_zcash_sapling = check_zcash_sapling = (s) ->
     if decoded.prefix isnt "zs"
       err = new Error "bad prefix: #{decoded.prefix}"
     else
-      ret = { family : "zcash", type : "zcash.s", prefix : (new Buffer "zs", "utf8") }
+      ret = { family : "zcash", type : "zcash.s", prefix : (Buffer.from "zs", "utf8") }
   catch e
     err = e
   [err, ret]
@@ -89,7 +89,7 @@ exports.check_btc_or_zcash = (s) ->
     "1cb8" : { family : "zcash"  , type : "zcash.t" } # transparent PK address
     "1cbd" : { family : "zcash"  , type : "zcash.t" } # transparent sig address
   }
-  prefixes = ((new Buffer k, 'hex') for k of types)
+  prefixes = ((Buffer.from k, 'hex') for k of types)
   [err, prefix] = check_with_prefixes s, prefixes
   return [err] if err?
   ret = types[prefix.toString('hex')]

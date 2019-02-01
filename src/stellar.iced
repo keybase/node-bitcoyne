@@ -17,7 +17,7 @@ crc16_xmodem = (x) ->
   crc
 
 exports.checksum = checksum = (version, data) ->
-  ret = new Buffer [0,0]
+  ret = Buffer.from [0,0]
   b = Buffer.concat [ version, data ]
   crc = crc16_xmodem b
   ret.writeUInt16LE crc, 0
@@ -30,7 +30,7 @@ version_bytes =
   sha256Hash:        23 << 3 # X
 
 version_byte = (typ) ->
-  if (b = version_bytes[typ]) then new Buffer [b]
+  if (b = version_bytes[typ]) then Buffer.from [b]
   else null
 
 encode_check = (typ, data) ->

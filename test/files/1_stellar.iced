@@ -12,8 +12,8 @@ gen = (opts, cb) ->
   await kbpgp.kb.KeyManager.generate {}, esc defer km
   await km.export_public {}, esc defer kid
   await km.export_private {}, esc defer priv
-  pub = new Buffer kid[4...-2], 'hex'
-  priv = new Buffer priv, 'hex'
+  pub = Buffer.from kid[4...-2], 'hex'
+  priv = Buffer.from priv, 'hex'
   cb null, { pub, priv }
 
 gen_fake_eddsa_pub = (cb) ->
@@ -55,7 +55,7 @@ exports.test_bad_public = (T,cb) ->
   d1 = base32.decode s1
   assert_fail T, 'bad encoding', () -> stellar.public_key.decode "X" + s1
   assert_fail T, 'Unexpected version byte', () ->
-    version = new Buffer [3]
+    version = Buffer.from [3]
     data = d1[1...-2]
     checksum = stellar.checksum(version, data)
     stellar.public_key.decode base32.encode(Buffer.concat([ version, data, checksum ] ))
