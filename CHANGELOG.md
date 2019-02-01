@@ -1,3 +1,7 @@
+## 1.0.6
+
+ - Use Buffer.from instead of (new Buffer)
+
 ## 1.0.5
 
  - support for zcash sapling
