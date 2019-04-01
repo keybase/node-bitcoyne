@@ -63,10 +63,15 @@ exports.check_btc_or_zcash = (T,cb) ->
     [ "zs1x2q4pej08shm9pd5fx8jvl97f8f7t8sej8lsgp08jsczxsucr5gkff0yasc0gc43dtv3wczerv5", true, "zcash.s" ]
     [ "zs1fw4tgx9gccv2f8af6ugu727slx7pq0nc46yflcuqyluruxtcmg20hxh3r4d9ec9yejj6gfrf2hc", true, "zcash.s" ]
     [ "zs1fw4tgx9gccv2f8af6ugu727slx7pq0nc46yflcuqyluruxtcmg20hxh3r4d9ec9yejj6gfrf2hd", false ]
-    [ "bc1qcerjvfmt8qr8xlp6pv4htjhwlj2wgdjnayc3cc", true, "bitcoin" ]
-    [ "bc1qc7slrfxkknqcq2jevvvkdgvrt8080852dfjewde450xdlk4ugp7szw5tk9", true, "bitcoin" ]
-    [ "bc11cerjvfmt8qr8xlp6pv4htjhwlj2wgdjnayc3cc", false ]
-    [ "bc20cerjvfmt8qr8xlp6pv4htjhwlj2wgdjnayc3cc", false ]
+    [ "bc1qc7slrfxkknqcq2jevvvkdgvrt8080852dfjewde450xdlk4ugp7szw5tk9", true, "bitcoin" ] # long but valid
+    [ "bc1qcerjvfmt8qr8xlp6pv4htjhwlj2wgdjnayc3cc", true, "bitcoin" ] # happy path
+    [ "bc1qCERJVfmt8qr8xlp6pv4htjhwlj2wgdjnayc3cc", false ] # mixed case
+    [ "bc10cerjvfmt8qr8xlp6pv4htjhwlj2wgdjn026rp2", true, "bitcoin" ] # max witness version (16)
+    [ "bc1scerjvfmt8qr8xlp6pv4htjhwlj2wgdjnfgf9hv", true, "bitcoin" ] # unallowable witness version (17)
+    [ "bc1q1erjvfmt8qr8xlp6pv4htjhwlj2wgdjnayc3cc", false ] # 1 is an unallowable character after the separator
+    [ "bc1qeerjvfmt8qr8xlp6pv4htjhwlj2wgdjnayc3cc", false ] # twiddled bad checksum
+    [ "bc1qcerjvfmt8qr8xlp6pv4htjhwlj2wgdjnaycccc", false ] # twiddled bad checksum
+    [ "bc20cerjvfmt8qr8xlp6pv4htjhwlj2wgdjnayc3cc", false ] # no separator (`1`) found
   ]
   for [a, ok, which], i in tests
     [err, ret] = address.check_btc_or_zcash a
