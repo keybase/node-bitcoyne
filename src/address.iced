@@ -36,8 +36,36 @@ match_prefix = (buf, prefixes) ->
 
 #==============================
 
-# Check for BTC in general (either standard or multisig)
+# see https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki#Specification
+parse_btc_if_segwit = (s) ->
+  # return nulls if the address clearly isnt mainnet bech32 bitcoin
+  return [null,null] unless s[0...3] is "bc1"
+  err = ret = null
+  try
+    if s.length < 14 or s.length > 74
+      throw new Error "address #{s} cannot be fewer than 14 or greater than 74 characters long"
+    decoded = bech32.decode s
+    hrp = decoded.prefix # bc
+    separator = s[2] # 1
+    witness_version = decoded.words[0] # must be 0 to 16 inclusive (q to 0 in the bech32 alphabet)
+    throw new Error "invalid witness_version #{witness_version}" unless 0 <= witness_version and witness_version <= 16
+    address_data = Buffer.from(bech32.fromWords(decoded.words[1...]), "hex")
+    if witness_version is 0 and (s.length isnt 42 and s.length isnt 62)
+      throw new Error "when witness_version is 0, #{s} must be 42 or 62 characters long"
+    checksum_length = s.length - hrp.length - 1 - decoded.words.length
+    throw new Error "unexpected checksum" if checksum_length isnt 6
+    checksum = s[(-checksum_length)...]
+    ret = {hrp, separator, witness_version, address_data, checksum}
+  catch e
+    err = e
+  return [err, ret]
+
+# Check for BTC in general (either standard or multisig or segwit)
 exports.check = check = (s, opts = {}) ->
+  [err, parsed_segwit] = parse_btc_if_segwit s
+  return [err, null] if err?
+  if parsed_segwit?
+    return [null, { version: parsed_segwit.witness_version, pkhash: parsed_segwit.address_data }]
   versions = opts.versions or [0,5]
   [err,buf] = decode s
   return [err,null] if err?
@@ -61,6 +89,14 @@ exports.check_with_prefixes = check_with_prefixes = (s, prefixes) ->
   [err, ret]
 
 #======================================================================
+# bech32
+
+exports.check_bitcoin_segwit = check_bitcoin_segwit = (s) ->
+  [err, parsed] = parse_btc_if_segwit s
+  return [null,null] unless err? or parsed?
+  return [err,null] if err?
+  ret = { family : "bitcoin", type : "bitcoin", prefix : (Buffer.from parsed.hrp, "utf8") }
+  [err, ret]
 
 exports.check_zcash_sapling = check_zcash_sapling = (s) ->
   return [null,null] unless s[0...3] is "zs1"
@@ -81,6 +117,8 @@ exports.check_zcash_sapling = check_zcash_sapling = (s) ->
 # and return a description of which subtype.
 exports.check_btc_or_zcash = (s) ->
   [err,ret] = check_zcash_sapling s
+  return [err,ret] if err? or ret?
+  [err,ret] = check_bitcoin_segwit s
   return [err,ret] if err? or ret?
   types =   {
     "00"   : { family : "bitcoin", type : "bitcoin" } # BTC normal

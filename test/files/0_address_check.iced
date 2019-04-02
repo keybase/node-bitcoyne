@@ -7,6 +7,15 @@ exports.check_good = (T, cb) ->
   [err,ret] = address.check a
   T.no_error err
   T.equal ret.version, 0
+  T.equal ret.pkhash, Buffer.from([246,150,244,21,139,4,46,186,33,169,194,102,0,58,161,38,243,1,195,54], "hex")
+  cb()
+
+exports.check_good_segwit = (T, cb) ->
+  a = "bc1qcerjvfmt8qr8xlp6pv4htjhwlj2wgdjnayc3cc"
+  [err,ret] = address.check a
+  T.no_error err
+  T.equal ret.version, 0
+  T.equal ret.pkhash, Buffer.from([198,71,38,39,107,56,6,115,124,58,11,43,117,202,238,252,148,228,54,83], "hex")
   cb()
 
 exports.check_bad_address_1 = (T,cb) ->
@@ -54,6 +63,15 @@ exports.check_btc_or_zcash = (T,cb) ->
     [ "zs1x2q4pej08shm9pd5fx8jvl97f8f7t8sej8lsgp08jsczxsucr5gkff0yasc0gc43dtv3wczerv5", true, "zcash.s" ]
     [ "zs1fw4tgx9gccv2f8af6ugu727slx7pq0nc46yflcuqyluruxtcmg20hxh3r4d9ec9yejj6gfrf2hc", true, "zcash.s" ]
     [ "zs1fw4tgx9gccv2f8af6ugu727slx7pq0nc46yflcuqyluruxtcmg20hxh3r4d9ec9yejj6gfrf2hd", false ]
+    [ "bc1qc7slrfxkknqcq2jevvvkdgvrt8080852dfjewde450xdlk4ugp7szw5tk9", true, "bitcoin" ] # long but valid
+    [ "bc1qcerjvfmt8qr8xlp6pv4htjhwlj2wgdjnayc3cc", true, "bitcoin" ] # happy path
+    [ "bc1qCERJVfmt8qr8xlp6pv4htjhwlj2wgdjnayc3cc", false ] # mixed case
+    [ "bc1scerjvfmt8qr8xlp6pv4htjhwlj2wgdjnfgf9hv", true, "bitcoin" ] # max witness version (16)
+    [ "bc13cerjvfmt8qr8xlp6pv4htjhwlj2wgdjnzk7w68", false ] # unallowable witness version (17)
+    [ "bc1q1erjvfmt8qr8xlp6pv4htjhwlj2wgdjnayc3cc", false ] # 1 is an unallowable character after the separator
+    [ "bc1qeerjvfmt8qr8xlp6pv4htjhwlj2wgdjnayc3cc", false ] # twiddled bad checksum
+    [ "bc1qcerjvfmt8qr8xlp6pv4htjhwlj2wgdjnaycccc", false ] # twiddled bad checksum
+    [ "bc20cerjvfmt8qr8xlp6pv4htjhwlj2wgdjnayc3cc", false ] # no separator (`1`) found
   ]
   for [a, ok, which], i in tests
     [err, ret] = address.check_btc_or_zcash a
