@@ -66,8 +66,8 @@ exports.check_btc_or_zcash = (T,cb) ->
     [ "bc1qc7slrfxkknqcq2jevvvkdgvrt8080852dfjewde450xdlk4ugp7szw5tk9", true, "bitcoin" ] # long but valid
     [ "bc1qcerjvfmt8qr8xlp6pv4htjhwlj2wgdjnayc3cc", true, "bitcoin" ] # happy path
     [ "bc1qCERJVfmt8qr8xlp6pv4htjhwlj2wgdjnayc3cc", false ] # mixed case
-    [ "bc10cerjvfmt8qr8xlp6pv4htjhwlj2wgdjn026rp2", true, "bitcoin" ] # max witness version (16)
-    [ "bc1scerjvfmt8qr8xlp6pv4htjhwlj2wgdjnfgf9hv", true, "bitcoin" ] # unallowable witness version (17)
+    [ "bc1scerjvfmt8qr8xlp6pv4htjhwlj2wgdjnfgf9hv", true, "bitcoin" ] # max witness version (16)
+    [ "bc13cerjvfmt8qr8xlp6pv4htjhwlj2wgdjnzk7w68", false ] # unallowable witness version (17)
     [ "bc1q1erjvfmt8qr8xlp6pv4htjhwlj2wgdjnayc3cc", false ] # 1 is an unallowable character after the separator
     [ "bc1qeerjvfmt8qr8xlp6pv4htjhwlj2wgdjnayc3cc", false ] # twiddled bad checksum
     [ "bc1qcerjvfmt8qr8xlp6pv4htjhwlj2wgdjnaycccc", false ] # twiddled bad checksum
