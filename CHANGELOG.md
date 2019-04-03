@@ -1,3 +1,7 @@
+## 1.0.7
+
+ - support bech32 bitcoin addresses
+
 ## 1.0.6
 
  - Use Buffer.from instead of (new Buffer)
