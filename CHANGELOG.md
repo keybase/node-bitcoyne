@@ -1,3 +1,7 @@
+## 1.0.8 (2019-07-31)
+
+ - Fix deps via npm audit
+
 ## 1.0.7
 
  - support bech32 bitcoin addresses
