@@ -36,7 +36,7 @@
     "colors": "~0.6.2",
     "iced-coffee-script": "^108.0.11",
     "iced-test": ">=0.0.7",
-    "minimist": "^0.1.0",
+    "minimist": "^1.2.6",
     "stellar-base": "^0.7.7"
   }
 }
